@@ -1,0 +1,36 @@
+version: "1"
+
+package:
+  id: io.github.pro_office_calc
+  name: pro_office_calc
+  version: 1.0.13.1
+  kind: app
+  description: |
+    ordinary calculator
+
+command:
+  - /opt/apps/io.github.pro_office_calc/files/bin/procalc
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/robjinman/pro_office_calc.git
+    version: master
+    commit: 9e684d7ea75b1c9ea1304c2efeaec0f5ce1d7f25
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/t/tinyxml2/libtinyxml2-dev_7.0.0+dfsg-1_amd64.deb
+    digest: e6c25a6de633bdfe8772e529e7ebb4cdef3eac3db189d1a643a449fc970a270e
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/t/tinyxml2/libtinyxml2-6a_7.0.0+dfsg-1_amd64.deb
+    digest: 217e7f3a433a8ec9b9b35815ebc6af2f42e2974d20a4429532e98454d1f51f5b
+build: |
+  bash ./install_dep linglong/sources $PREFIX
+
+  cd /project/linglong/sources/pro_office_calc.git
+  mkdir -p build
+  cd build
+  cmake .. \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX}
+  cmake --build . --target install -j$(nproc --all)
