@@ -1,0 +1,27 @@
+From 3be6cad7b6bf93eb9ab285ff4be0c2dbdbc85e6e Mon Sep 17 00:00:00 2001
+From: wjyrich <1071633242@qq.com>
+Date: Sun, 8 Sep 2024 15:03:27 +0800
+Subject: [PATCH] install
+
+---
+ build/cmake/CMakeLists.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/build/cmake/CMakeLists.txt b/build/cmake/CMakeLists.txt
+index 4c154ba..338680d 100644
+--- a/build/cmake/CMakeLists.txt
++++ b/build/cmake/CMakeLists.txt
+@@ -43,7 +43,9 @@ endif ()
+ MESSAGE("-- Application version is ${VERSION}")
+ CONFIGURE_FILE(../../src/util/version.h.in "${CMAKE_BINARY_DIR}/version.h" @ONLY)
+ 
+-FIND_PACKAGE(exiv2 REQUIRED)
++find_package(PkgConfig REQUIRED)  
++pkg_check_modules(EXIV2 REQUIRED exiv2)  
++include_directories(${EXIV2_INCLUDE_DIRS})  
+ if (APPLE OR WIN32)
+     FIND_PACKAGE(libjpeg-turbo REQUIRED)
+ endif()
+-- 
+2.43.4
+
